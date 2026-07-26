@@ -1,17 +1,17 @@
 package com.sainiharika.enterpriseai.communication.service.impl;
 
+import com.sainiharika.enterpriseai.common.ai.model.AIRequest;
 import com.sainiharika.enterpriseai.common.ai.model.PromptDefinition;
-import com.sainiharika.enterpriseai.common.ai.prompt.PromptTemplateEngine;
 import com.sainiharika.enterpriseai.common.ai.provider.AIProvider;
 import com.sainiharika.enterpriseai.common.ai.provider.AIProviderType;
 import com.sainiharika.enterpriseai.common.ai.provider.factory.AIProviderFactory;
+import com.sainiharika.enterpriseai.common.ai.provider.resolver.AIProviderResolver;
 import com.sainiharika.enterpriseai.communication.dto.GenerateCommunicationRequest;
 import com.sainiharika.enterpriseai.communication.dto.GenerateCommunicationResponse;
 import com.sainiharika.enterpriseai.communication.prompt.CommunicationPromptStrategy;
 import com.sainiharika.enterpriseai.communication.prompt.factory.CommunicationPromptStrategyFactory;
 import com.sainiharika.enterpriseai.communication.service.CommunicationService;
 import lombok.AllArgsConstructor;
-import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.stereotype.Service;
 
 @AllArgsConstructor
@@ -22,15 +22,20 @@ public class CommunicationServiceImpl implements CommunicationService {
 
     private final AIProviderFactory aiProviderFactory;
 
+    private final AIProviderResolver aiProviderResolver;
+
     @Override
     public GenerateCommunicationResponse generateEmail(GenerateCommunicationRequest request) {
 
         CommunicationPromptStrategy promptStrategy = factory.getStrategy(request.getCommunicationType());
         PromptDefinition promptDefinition = promptStrategy.buildPrompt(request);
+        AIRequest aiRequest = AIRequest.builder()
+                .promptDefinition(promptDefinition)
+                .build();
 
-        AIProvider aiProvider = aiProviderFactory.getProvider(AIProviderType.OLLAMA_PROVIDER);
+        AIProvider aiProvider = aiProviderFactory.getProvider(aiProviderResolver.resolve());
 
-        String response = aiProvider.generate(promptDefinition);
+        String response = aiProvider.generate(aiRequest);
 
 
         return GenerateCommunicationResponse.builder()
