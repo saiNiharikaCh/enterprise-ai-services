@@ -1,6 +1,7 @@
 package com.sainiharika.enterpriseai.common.ai.provider.impl;
 
-import com.sainiharika.enterpriseai.common.ai.model.PromptDefinition;
+import com.sainiharika.enterpriseai.common.ai.model.AIRequest;
+import com.sainiharika.enterpriseai.common.ai.model.RenderedPrompt;
 import com.sainiharika.enterpriseai.common.ai.prompt.PromptTemplateEngine;
 import com.sainiharika.enterpriseai.common.ai.provider.AIProvider;
 import com.sainiharika.enterpriseai.common.ai.provider.AIProviderType;
@@ -22,10 +23,11 @@ public class OllamaAIProvider implements AIProvider {
     }
 
     @Override
-    public String generate(PromptDefinition promptDefinition) {
-        String promptStr = templateEngine.render(promptDefinition);
+    public String generate(AIRequest aiRequest) {
+        RenderedPrompt renderedPrompt = templateEngine.render(aiRequest);
         return chatClient.prompt()
-                .user(promptStr)
+                .system(renderedPrompt.getSystemPromptStr())
+                .user(renderedPrompt.getUserPromptStr())
                 .call()
                 .content();
     }

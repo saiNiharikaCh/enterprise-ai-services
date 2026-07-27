@@ -1,4 +1,4 @@
-package com.sainiharika.enterpriseai.communication.config;
+package com.sainiharika.enterpriseai.common.ai.config;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.ChatModel;

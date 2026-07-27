@@ -9,3 +9,6 @@ spring:
       chat:
         options:
           model: llama3.2:3b
+
+ai:
+  providerType: OLLAMA_PROVIDER

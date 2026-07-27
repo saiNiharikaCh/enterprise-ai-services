@@ -9,7 +9,9 @@ import java.util.Map;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class PromptDefinition {
 
-    private final PromptTemplate promptTemplate;
+    private final SystemPromptTemplate systemPromptTemplate;
+
+    private final UserPromptTemplate userPromptTemplate;
 
     private final Map<String, Object> variables;
 }

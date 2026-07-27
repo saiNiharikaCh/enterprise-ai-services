@@ -1,7 +1,8 @@
 package com.sainiharika.enterpriseai.communication.prompt.impl;
 
 import com.sainiharika.enterpriseai.common.ai.model.PromptDefinition;
-import com.sainiharika.enterpriseai.common.ai.model.PromptTemplate;
+import com.sainiharika.enterpriseai.common.ai.model.SystemPromptTemplate;
+import com.sainiharika.enterpriseai.common.ai.model.UserPromptTemplate;
 import com.sainiharika.enterpriseai.communication.dto.GenerateCommunicationRequest;
 import com.sainiharika.enterpriseai.communication.model.CommunicationType;
 import com.sainiharika.enterpriseai.communication.model.Tone;
@@ -21,7 +22,8 @@ public class WorkFromHomePromptStrategy implements CommunicationPromptStrategy {
     @Override
     public PromptDefinition buildPrompt(GenerateCommunicationRequest request) {
         return PromptDefinition.builder()
-                .promptTemplate(PromptTemplate.WORK_FROM_HOME)
+                .systemPromptTemplate(SystemPromptTemplate.COMMUNICATION_SYSTEM)
+                .userPromptTemplate(UserPromptTemplate.WORK_FROM_HOME)
                 .variables(Map.of("recipientId",request.getRecipientId()
                         ,"reason",request.getReason()
                         ,"startDate",request.getStartDate()

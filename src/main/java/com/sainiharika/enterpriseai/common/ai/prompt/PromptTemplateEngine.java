@@ -1,8 +1,9 @@
 package com.sainiharika.enterpriseai.common.ai.prompt;
 
-import com.sainiharika.enterpriseai.common.ai.model.PromptDefinition;
+import com.sainiharika.enterpriseai.common.ai.model.AIRequest;
+import com.sainiharika.enterpriseai.common.ai.model.RenderedPrompt;
 
 public interface PromptTemplateEngine {
 
-    String render(PromptDefinition promptDefinition);
+    RenderedPrompt render(AIRequest aiRequest);
 }
